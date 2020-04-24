@@ -11,7 +11,8 @@ class MainPage extends Component {
         this.state = {
             error: null,
             isLoaded: false,
-            locations: []
+            locations: [],
+            activeLocation: null
         };
     }
 
@@ -35,6 +36,7 @@ class MainPage extends Component {
     }
     render() {
         const {error, isLoaded, locations} = this.state;
+        //const [activeLocation, setActiveLocation] = React.useState(null);
         if (error) {
             return <div>Oops..something went wrong: {error.message}</div>;
         } else if (!isLoaded) {
@@ -52,8 +54,37 @@ class MainPage extends Component {
                         <Marker
                             key={location.id}
                             position={[location.latitude, location.longitude]}
+                            onMouseUp = {() => {
+                                this.setState({
+                                    activeLocation: location
+                                })
+
+                            }}
+                            onMouseDown = {() => {
+                                this.setState({
+                                    activeLocation: null
+                                })
+                            }}
+
                         />
                     ))}
+                    {this.state.activeLocation && (
+                    <Popup
+                        position={[
+                            this.state.activeLocation.latitude,
+                            this.state.activeLocation.longitude
+                        ]}
+                        onClose = {() => {
+                            this.setState({
+                                activeLocation: null
+                            })
+                        }}
+                    >
+                        <div>
+                            <h2>{this.state.activeLocation.name}</h2>
+                        </div>
+                    </Popup>
+                    )}
                 </Map>
                 </React.Fragment>
             );
