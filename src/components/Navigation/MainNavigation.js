@@ -6,7 +6,7 @@ const mainNavigation = props => (
     <header className="main-navigation">
         <div className="main-navigation__logo">
             <NavLink to= "/main">
-                <img src={require('../../Logo.png')} alt ="Logo"/>
+                <img src={require('../../Logo.svg')} alt ="Logo"/>
             </NavLink>
         </div>
         <nav className="main-navigation__item">
