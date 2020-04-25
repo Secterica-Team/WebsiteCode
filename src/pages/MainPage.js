@@ -4,6 +4,11 @@ import {Icon} from "leaflet";
 import "./MainPage.css";
 
 
+const myMarker = new Icon({
+    iconUrl: require("../my_marker_location.svg"),
+    iconSize: [50,55]
+});
+
 class MainPage extends Component {
 
     constructor(props) {
@@ -35,8 +40,9 @@ class MainPage extends Component {
             )
     }
     render() {
-        const {error, isLoaded, locations} = this.state;
+        const {error, isLoaded, locations, activeLocation} = this.state;
         //const [activeLocation, setActiveLocation] = React.useState(null);
+
         if (error) {
             return <div>Oops..something went wrong: {error.message}</div>;
         } else if (!isLoaded) {
@@ -44,7 +50,7 @@ class MainPage extends Component {
         } else {
             return (
                 <React.Fragment>
-                <Map center={[49.839684, 24.029716]} zoom={13}>
+                <Map center={[49.839684, 24.029716]} zoom={9}>
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -54,25 +60,21 @@ class MainPage extends Component {
                         <Marker
                             key={location.id}
                             position={[location.latitude, location.longitude]}
-                            onMouseUp = {() => {
+
+                            onClick = {() => {
                                 this.setState({
                                     activeLocation: location
                                 })
-
-                            }}
-                            onMouseDown = {() => {
-                                this.setState({
-                                    activeLocation: null
-                                })
                             }}
 
+                            icon = {myMarker}
                         />
                     ))}
-                    {this.state.activeLocation && (
+                    {activeLocation && (
                     <Popup
                         position={[
-                            this.state.activeLocation.latitude,
-                            this.state.activeLocation.longitude
+                            activeLocation.latitude,
+                            activeLocation.longitude
                         ]}
                         onClose = {() => {
                             this.setState({
@@ -81,7 +83,7 @@ class MainPage extends Component {
                         }}
                     >
                         <div>
-                            <h2>{this.state.activeLocation.name}</h2>
+                            <h2>{activeLocation.name}</h2>
                         </div>
                     </Popup>
                     )}
