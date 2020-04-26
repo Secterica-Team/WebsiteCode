@@ -4,6 +4,7 @@ import {Icon} from "leaflet";
 import "./MainPage.css";
 import {useHistory} from "react-router-dom";
 import {Redirect} from "react-router-dom";
+import  LocationContext from '../context/location-context'
 
 
 const myMarker = new Icon({
@@ -22,6 +23,8 @@ class MainPage extends Component {
             activeLocation: null
         };
     }
+
+    static contextType = LocationContext;
 
     componentDidMount() {
         fetch("http://heysmellproject-env.eba-uctmjbw3.us-east-2.elasticbeanstalk.com/air-quality/locations")
@@ -69,7 +72,7 @@ class MainPage extends Component {
                             onMouseOver = {() => {
                                 this.setState({
                                     activeLocation: location
-                                })
+                                });
                             }}
 
                             onMouseOut = {() => {
@@ -78,7 +81,13 @@ class MainPage extends Component {
                                 })
                             }}
 
-                            onClick={this.handleClick}
+                            onClick={() => {
+                                this.setState({
+                                    activeLocation: location
+                                });
+                                this.handleClick();
+                                this.context.putCurrentLocation(location, location.id);
+                            }}
                             icon = {myMarker}
                         />
                     ))}
