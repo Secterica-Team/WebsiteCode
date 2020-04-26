@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {Map, Marker, Popup, TileLayer} from "react-leaflet";
+import {Map, Marker, Popup, TileLayer, Circle, CircleMarker} from "react-leaflet";
 import {Icon} from "leaflet";
 import "./MainPage.css";
+import {useHistory} from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
 
 const myMarker = new Icon({
@@ -39,10 +41,13 @@ class MainPage extends Component {
                 }
             )
     }
+
+    handleClick = () => {
+      this.props.history.push("/location")
+    };
     render() {
         const {error, isLoaded, locations, activeLocation} = this.state;
         //const [activeLocation, setActiveLocation] = React.useState(null);
-
         if (error) {
             return <div>Oops..something went wrong: {error.message}</div>;
         } else if (!isLoaded) {
@@ -61,12 +66,19 @@ class MainPage extends Component {
                             key={location.id}
                             position={[location.latitude, location.longitude]}
 
-                            onClick = {() => {
+                            onMouseOver = {() => {
                                 this.setState({
                                     activeLocation: location
                                 })
                             }}
 
+                            onMouseOut = {() => {
+                                this.setState({
+                                    activeLocation: null
+                                })
+                            }}
+
+                            onClick={this.handleClick}
                             icon = {myMarker}
                         />
                     ))}
