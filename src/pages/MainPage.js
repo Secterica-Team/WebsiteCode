@@ -27,6 +27,7 @@ class MainPage extends Component {
     static contextType = LocationContext;
 
     componentDidMount() {
+        this.context.putCurrentLocation(null, null);
         fetch("http://heysmellproject-env.eba-uctmjbw3.us-east-2.elasticbeanstalk.com/air-quality/locations")
             .then(res => res.json())
             .then(
@@ -87,6 +88,8 @@ class MainPage extends Component {
                                 });
                                 this.handleClick();
                                 this.context.putCurrentLocation(location, location.id);
+                                localStorage.setItem('currentLocation', location);
+                                localStorage.setItem('currentLocationId', location.id);
                             }}
                             icon = {myMarker}
                         />
