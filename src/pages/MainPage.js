@@ -4,12 +4,12 @@ import {Icon} from "leaflet";
 import "./MainPage.css";
 import {useHistory} from "react-router-dom";
 import {Redirect} from "react-router-dom";
-import  LocationContext from '../context/location-context'
+import LocationContext from '../context/location-context'
 
 
 const myMarker = new Icon({
     iconUrl: require("../my_marker_location.svg"),
-    iconSize: [50,55]
+    iconSize: [50, 55]
 });
 
 class MainPage extends Component {
@@ -49,6 +49,7 @@ class MainPage extends Component {
     handleClick = () => {
         this.props.history.push("/location")
     };
+
     render() {
         const {error, isLoaded, locations, activeLocation} = this.state;
         //const [activeLocation, setActiveLocation] = React.useState(null);
@@ -70,13 +71,13 @@ class MainPage extends Component {
                                 key={location.id}
                                 position={[location.latitude, location.longitude]}
 
-                                onMouseOver = {() => {
+                                onMouseOver={() => {
                                     this.setState({
                                         activeLocation: location
                                     });
                                 }}
 
-                                onMouseOut = {() => {
+                                onMouseOut={() => {
                                     this.setState({
                                         activeLocation: null
                                     })
@@ -87,11 +88,14 @@ class MainPage extends Component {
                                         activeLocation: location
                                     });
                                     this.handleClick();
-                                    this.context.putCurrentLocation(location, location.id);
+                                    this.context.putCurrentLocation(location, location.id, location.name, location.latitude, location.longitude);
                                     localStorage.setItem('currentLocation', location);
                                     localStorage.setItem('currentLocationId', location.id);
+                                    localStorage.setItem('currentLocationName', location.name);
+                                    localStorage.setItem('currentLocationLatitude', location.latitude);
+                                    localStorage.setItem('currentLocationLongitude', location.longitude);
                                 }}
-                                icon = {myMarker}
+                                icon={myMarker}
                             />
                         ))}
                         {activeLocation && (
@@ -100,7 +104,7 @@ class MainPage extends Component {
                                     activeLocation.latitude,
                                     activeLocation.longitude
                                 ]}
-                                onClose = {() => {
+                                onClose={() => {
                                     this.setState({
                                         activeLocation: null
                                     })
