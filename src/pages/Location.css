@@ -1,5 +1,19 @@
 .my_current_location{
     background: #0F1521;
-    height: 100vh;
+    height: 92.5vh;
     width: 100%;
 }
+
+.my_window{
+    color: #182633;
+    height: 15vh;
+    width: 15vh;
+}
+.my_map{
+    width: 55%;
+    height: 85vh;
+    position: absolute;
+    top: 8rem;
+    right: 0rem;
+}
+
