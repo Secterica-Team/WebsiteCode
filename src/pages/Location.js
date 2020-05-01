@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import "./Location.css";
+import "./Metadata.js";
 import LocationContext from '../context/location-context';
 import {Map, Marker, TileLayer} from "react-leaflet";
 import {Icon} from "leaflet";
+import MetadataWindow from "./Metadata";
 
 
 const myMarker = new Icon({
@@ -18,7 +20,8 @@ class Location extends Component {
             error: null,
             isLoaded: false,
             allDayData: null,
-            currentDayMetaData: null
+            currentDayMetaData: null,
+            dateTime: []
         };
     }
 
@@ -38,9 +41,9 @@ class Location extends Component {
                     this.setState({
                         isLoaded: true,
                         allDayData: result,
-                        currentDayMetaData: result[result.length - 1]
+                        currentDayMetaData: result[result.length - 1],
+                        dateTime: result[result.length - 1].dateTime.split("T")
                     });
-                    console.log(result);
                     localStorage.setItem('currentDayMetaData', this.state.currentDayMetaData);
                     this.context.putCurrentMetadata(this.state.currentDayMetaData.co,
                                                     this.state.currentDayMetaData.co2,
@@ -48,8 +51,29 @@ class Location extends Component {
                                                     this.state.currentDayMetaData.hum,
                                                     this.state.currentDayMetaData.tmp,
                                                     this.state.currentDayMetaData.smk,
-                                                    this.state.currentDayMetaData.lpg);
+                                                    this.state.currentDayMetaData.lpg,
+                                                    this.state.dateTime[1]);
                 },
+        // fetch(`http://heysmellproject-env.eba-uctmjbw3.us-east-2.elasticbeanstalk.com/air-quality/last_week?location=${encodeURIComponent(currentLocationToDisplayId)}`)
+        //     .then(res => res.json())
+        //     .then(
+        //         (result) => {
+        //             this.setState({
+        //                 isLoaded: true,
+        //                 allDayData: result,
+        //                 currentDayMetaData: result[result.length - 1]
+        //             });
+        //             console.log(this.state.currentDayMetaData);
+        //             localStorage.setItem('currentDayMetaData', this.state.currentDayMetaData);
+        //             this.context.putCurrentMetadata(this.state.currentDayMetaData.co,
+        //                                             this.state.currentDayMetaData.co2,
+        //                                             this.state.currentDayMetaData.dus,
+        //                                             this.state.currentDayMetaData.hum,
+        //                                             this.state.currentDayMetaData.tmp,
+        //                                             this.state.currentDayMetaData.smk,
+        //                                             this.state.currentDayMetaData.lpg,
+        //                                             this.state.currentDayMetaData.time);
+        //         },
                 (error) => {
                     this.setState({
                         isLoaded: true,
@@ -81,6 +105,7 @@ class Location extends Component {
                                 icon={myMarker}
                             />
                         </Map>
+                        <MetadataWindow/>
                     </div>
                 </React.Fragment>
             );
