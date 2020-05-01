@@ -1,0 +1,58 @@
+.my_window{
+    background-color: #182633;
+    width: 27rem;
+    margin-left: 3.5rem;
+    height: 82vh;
+    top: 8rem;
+    position: absolute;
+    left: 4rem;
+    border-radius: 14px;
+}
+
+.my_window h1 {
+    font-size: 1.75rem;
+    color: #5F7B88;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    margin-bottom: 2.2rem;
+    margin-left: 2rem;
+}
+
+.tab {
+    display:inline-block;
+    margin-left: 3rem;
+}
+
+.tab1 {
+    display:inline-block;
+    margin-left: 9.6rem;
+}
+
+.tab2 {
+    display:inline-block;
+    margin-left: 12.3rem;
+}
+
+.tab3 {
+    display:inline-block;
+    margin-left: 3rem;
+}
+
+.tab4 {
+    display:inline-block;
+    margin-left: 14.7rem;
+}
+
+.tab5 {
+    display:inline-block;
+    margin-left: 17.59rem;
+}
+.tab6 {
+    display:inline-block;
+    margin-left: 15.15rem;
+}
+
+.tab7 {
+    display:inline-block;
+    margin-left: 16rem;
+}
