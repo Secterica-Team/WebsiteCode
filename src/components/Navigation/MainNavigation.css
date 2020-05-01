@@ -13,13 +13,13 @@
 }
 
 .main-navigation__logo {
-    margin: 2.5rem;
+    margin: 6rem;
     padding:0;
 }
 
 .main-navigation__item {
     margin-left: 1.5rem;
-    margin-right: 2.5rem;
+    margin-right: 5rem;
 }
 
 .main-navigation__item ul {
