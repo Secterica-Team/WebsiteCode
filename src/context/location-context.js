@@ -13,8 +13,9 @@ export default React.createContext({
     currentDayMetadataTemperature: null,
     currentDayMetadataSmoke: null,
     currentDayMetadataLPQ: null,
+    currentDayMetadataTime: null,
     putCurrentLocation: (currentLocation, locationId, locationName, locationLatitude, locationLongitude) => {
     },
-    putCurrentMetadata: (currentDayMetadataCO, currentDayMetadataCO2, currentDayMetadataDust, currentDayMetadataHumidity, currentDayMetadataTemperature, currentDayMetadataSmoke, currentDayMetadataLPQ) => {
+    putCurrentMetadata: (currentDayMetadataCO, currentDayMetadataCO2, currentDayMetadataDust, currentDayMetadataHumidity, currentDayMetadataTemperature, currentDayMetadataSmoke, currentDayMetadataLPQ, currentDayMetadataTime) => {
     }
 });
