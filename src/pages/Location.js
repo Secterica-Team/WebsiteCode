@@ -34,27 +34,7 @@ class Location extends Component {
         const currentLocationToDisplayLatitude = localStorage.getItem('currentLocationLatitude');
         const currentLocationToDisplayLongitude = localStorage.getItem('currentLocationLongitude');
         this.context.putCurrentLocation(currentLocationToDisplay, currentLocationToDisplayId, currentLocationToDisplayName, currentLocationToDisplayLatitude, currentLocationToDisplayLongitude);
-        // fetch(`http://heysmellproject-env.eba-uctmjbw3.us-east-2.elasticbeanstalk.com/air-quality/last_day?location=${encodeURIComponent(currentLocationToDisplayId)}`)
-        //     .then(res => res.json())
-        //     .then(
-        //         (result) => {
-        //             this.setState({
-        //                 isLoaded: true,
-        //                 allDayData: result,
-        //                 currentDayMetaData: result[result.length - 1],
-        //                 dateTime: result[result.length - 1].dateTime.split("T")
-        //             });
-        //             localStorage.setItem('currentDayMetaData', this.state.currentDayMetaData);
-        //             this.context.putCurrentMetadata(this.state.currentDayMetaData.co,
-        //                                             this.state.currentDayMetaData.co2,
-        //                                             this.state.currentDayMetaData.dus,
-        //                                             this.state.currentDayMetaData.hum,
-        //                                             this.state.currentDayMetaData.tmp,
-        //                                             this.state.currentDayMetaData.smk,
-        //                                             this.state.currentDayMetaData.lpg,
-        //                                             this.state.dateTime[1]);
-        //         },
-        fetch(`http://heysmellproject-env.eba-uctmjbw3.us-east-2.elasticbeanstalk.com/air-quality/last_month?location=${encodeURIComponent(currentLocationToDisplayId)}`)
+        fetch(`http://heysmellproject-env.eba-uctmjbw3.us-east-2.elasticbeanstalk.com/air-quality/last_day?location=${encodeURIComponent(currentLocationToDisplayId)}`)
             .then(res => res.json())
             .then(
                 (result) => {
@@ -62,7 +42,7 @@ class Location extends Component {
                         isLoaded: true,
                         allDayData: result,
                         currentDayMetaData: result[result.length - 1],
-                        dateTime: result[result.length - 1].dateTime.split("T")
+                        dateTime: result[result.length - 1].dateTime.split(/T|\./)
                     });
                     console.log(this.state.currentDayMetaData);
                     localStorage.setItem('currentDayMetaData', this.state.currentDayMetaData);
