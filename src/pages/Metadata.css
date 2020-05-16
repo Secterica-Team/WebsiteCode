@@ -25,11 +25,11 @@
 }
 
 .tab {
-    margin-right: 2rem;
+    margin-right: 3rem;
 }
 
 .header {
-    margin-left: 2rem;
+    margin-left: 1rem;
 }
 
 .last_element {
@@ -42,8 +42,12 @@
     justify-content: space-between;
 }
 .chart {
-    position: absolute;
+    position: fixed;
+    float: left;
     right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .data {
     margin-bottom: 7.2vh;
