@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-import {Map, Marker, Popup, TileLayer, Circle, CircleMarker} from "react-leaflet";
+import {Map, Marker, Popup, TileLayer} from "react-leaflet";
 import {Icon} from "leaflet";
 import "./MainPage.css";
-import {useHistory} from "react-router-dom";
-import {Redirect} from "react-router-dom";
 import LocationContext from '../context/location-context'
 
 
