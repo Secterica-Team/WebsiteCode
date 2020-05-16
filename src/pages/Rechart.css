@@ -1,0 +1,23 @@
+.container {
+    /*-webkit-box-sizing: border-box;*/
+    /*-moz-box-sizing: border-box;*/
+    box-sizing: border-box;
+    padding: 0;
+    width: 150px;
+    height: 200px;
+    background-color: #182633;
+    margin-left: 35.7rem;
+    position: absolute;
+    top: 0;
+    border-radius: 14px;
+    float: right;
+    display: flex;
+    justify-content: flex-end;
+}
+.chart_block{
+    margin: 0 0 0 0;
+    padding: 0;
+    float: right;
+    display: flex;
+    justify-content: flex-end;
+}
