@@ -15,5 +15,6 @@
     top: 8rem;
     right: 7.5rem;
     border-radius: 5px;
+    z-index: 0;
 }
 
