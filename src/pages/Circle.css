@@ -1,0 +1,7 @@
+.chart_window{
+    width: 50rem;
+    height: 30rem;
+    position: fixed;
+    z-index:99999;
+    border-radius: 20px;
+}
