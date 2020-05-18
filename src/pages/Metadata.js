@@ -110,18 +110,18 @@ class MetadataWindow extends Component {
         }
     };
     setHumidityColor = (value) => {
-        if (value <= 55) {
+        if (value <= 30) {
             return colors.moderate;
-        } else if (value > 55 && value <= 85) {
+        } else if (value > 30 && value <= 50) {
             return colors.good;
         } else {
             return colors.unhealthy;
         }
     };
     setHumidityGradient = (value) => {
-        if (value <= 55) {
+        if (value <= 30) {
             return gradients.moderate;
-        } else if (value > 56 && value <= 85) {
+        } else if (value > 30 && value <= 50) {
             return gradients.good;
         } else {
             return gradients.unhealthy;
@@ -170,26 +170,28 @@ class MetadataWindow extends Component {
                     </div>
                     <div className="data">
                         <h1 className="header">Dust</h1>
-                        <ApexChart className="chart" value={localStorage.getItem("dust")} label="mkm/m3" max={500.4}
+                        <ApexChart className="chart" value={localStorage.getItem("dust")} label="μg/m3" max={500.4}
                                    name={"dust"}
                                    color={this.setDustColor(localStorage.getItem("dust"))}
                                    gradient={this.setDustGradient(localStorage.getItem("dust"))}/>
                     </div>
                     <div className="data">
                         <h1 className="header">Smoke</h1>
-                        <ApexChart className="chart" value={localStorage.getItem("smoke")} label="ppm" max={30}
-                                   gradient={gradients.veryUnhealthy} color={colors.veryUnhealthy}/>
+                        <ApexChart className="chart" value={localStorage.getItem("smoke")} label="μg/m3" max={30}
+                                   name={"smoke"}
+                                   color={this.setCOColor(localStorage.getItem("smoke"))}
+                                   gradient={this.setCOGradient(localStorage.getItem("smoke"))}/>
                     </div>
                     <div className="data">
                         <h1 className="header">CO</h1>
-                        <ApexChart className="chart" value={localStorage.getItem("co")} label="" max={50.4}
+                        <ApexChart className="chart" value={localStorage.getItem("co")} label="μg/m3" max={50.4}
                                    name={"co"}
                                    color={this.setCOColor(localStorage.getItem("co"))}
                                    gradient={this.setCOGradient(localStorage.getItem("co"))}/>
                     </div>
                     <div className="data">
                         <h1 className="header">CO<sub>2</sub></h1>
-                        <ApexChart className="chart" value={localStorage.getItem("co2")} label="ppm" max={1300}
+                        <ApexChart className="chart" value={localStorage.getItem("co2")} label="μg/m3" max={1300}
                                    name={"co2"}
                                    color={this.setCO2Color(localStorage.getItem("co2"))}
                                    gradient={this.setCO2Gradient(localStorage.getItem("co2"))}
@@ -197,8 +199,10 @@ class MetadataWindow extends Component {
                     </div>
                     <div className="last_element">
                         <h1 className="header"> LPG </h1>
-                        <ApexChart className="chart" value={localStorage.getItem("lpg")} label="ppm" max={100}
-                                   gradient={'#6D8BD8'}/>
+                        <ApexChart className="chart" value={localStorage.getItem("lpg")} label="μg/m3" max={100}
+                                   name={"lpg"}
+                                   color={this.setCOColor(localStorage.getItem("lpg"))}
+                                   gradient={this.setCOGradient(localStorage.getItem("lpg"))}/>
                     </div>
                 </div>
             </React.Fragment>
