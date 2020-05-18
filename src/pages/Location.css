@@ -17,4 +17,8 @@
     border-radius: 5px;
     z-index: 0;
 }
-
+.aqi_current, .slash, .aqi_max {
+    display: inline;
+    padding: 0;
+    margin: 0;
+}
