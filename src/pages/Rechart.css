@@ -21,3 +21,8 @@
     display: flex;
     justify-content: flex-end;
 }
+.tooltip-view-button{
+    z-index: 999999;
+    width: 4rem;
+    height: 5rem;
+}
