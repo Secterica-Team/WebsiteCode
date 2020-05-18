@@ -3,6 +3,8 @@ import ReactApexChart from "react-apexcharts"
 import LocationContext from '../context/location-context';
 import Recharts from "./Rechart";
 import "./Circle.css";
+import { Icon, InlineIcon } from '@iconify/react';
+import infoOutline from '@iconify/icons-eva/info-outline';
 
 
 class ApexChart extends Component {
@@ -90,11 +92,36 @@ class ApexChart extends Component {
                     height: 90,
                     type: 'radialBar',
                     toolbar: {
-                        show: false
+                        show: false,
+                        offsetX: -65,
+                        offsetY: 12,
+                        tools: {
+                            download: <img src={require("../info_icon.svg")} width={24} alt="Info"/>,
+                            selection: true,
+                            zoom: true,
+                            zoomin: true,
+                            zoomout: true,
+                            pan: true,
+                            reset: true | <img src={require("../info_icon.svg")} width={24} alt="Info"/>,
+                            customIcons: []
+                        },
+                        autoSelected: 'zoom'
                     },
                     tooltip: {
                         intersect: true,
                         shared: false
+                    },
+                    animations: {
+                        enabled: true,
+                        speed: 3000,
+                        animateGradually: {
+                            enabled: true,
+                            delay: 150
+                        },
+                        dynamicAnimation: {
+                            enabled: true,
+                            speed: 350
+                        }
                     },
                     events: {
                         dataPointMouseEnter: () => {
@@ -192,7 +219,7 @@ class ApexChart extends Component {
                     <ReactApexChart options={this.state.options} series={this.state.series} type="radialBar"
                                     height={this.state.options.chart.height}/>
                     {/*<div className="chart_window">*/}
-                    {showChart && <Recharts data={this.state.data} name={this.state.nameOfProperty}/>}
+                    {showChart && <Recharts data={this.state.data} name={this.state.nameOfProperty} showChart={this.state.showChart}/>}
                     {/*</div>*/}
                 </div>
             </div>
