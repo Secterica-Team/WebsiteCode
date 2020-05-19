@@ -145,6 +145,7 @@ class MetadataWindow extends Component {
             return gradients.unhealthy;
         }
     };
+
     render() {
         return (
             <React.Fragment>
@@ -184,7 +185,7 @@ class MetadataWindow extends Component {
                     </div>
                     <div className="data">
                         <h1 className="header">CO</h1>
-                        <ApexChart className="chart" value={localStorage.getItem("co")} label="μg/m3" max={50.4}
+                        <ApexChart className="chart" value={localStorage.getItem("co")} label="μg/m3" max={50.3}
                                    name={"co"}
                                    color={this.setCOColor(localStorage.getItem("co"))}
                                    gradient={this.setCOGradient(localStorage.getItem("co"))}/>
