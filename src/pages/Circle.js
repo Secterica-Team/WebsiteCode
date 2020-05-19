@@ -3,23 +3,27 @@ import ReactApexChart from "react-apexcharts"
 import LocationContext from '../context/location-context';
 import Recharts from "./Rechart";
 import "./Circle.css";
-import { Icon, InlineIcon } from '@iconify/react';
+import {Icon, InlineIcon} from '@iconify/react';
 import infoOutline from '@iconify/icons-eva/info-outline';
 
 
 class ApexChart extends Component {
     static contextType = LocationContext;
+    _isMounted = false;
 
     componentDidMount() {
+        this._isMounted = true;
         fetch(`http://heysmellproject-env.eba-uctmjbw3.us-east-2.elasticbeanstalk.com/air-quality/last_day?location=${encodeURIComponent(this.context.locationId)}`)
             .then(res => res.json())
             .then(
                 (result) => {
-                    this.setState({
-                        isLoaded: true,
-                        allDayData: result,
-                        response: true
-                    });
+                    if (this._isMounted) {
+                        this.setState({
+                            isLoaded: true,
+                            allDayData: result,
+                            response: true
+                        });
+                    }
                 },
                 (error) => {
                     this.setState({
@@ -125,10 +129,8 @@ class ApexChart extends Component {
                     },
                     events: {
                         dataPointMouseEnter: () => {
-                            {
-                                this.state.response &&
-                                this.showChartHandler();
-                            }
+                            this.state.response &&
+                            this.showChartHandler();
                         },
                         dataPointMouseLeave: () => {
                             this.setState({
@@ -211,6 +213,10 @@ class ApexChart extends Component {
         };
     }
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     render() {
         const {showChart} = this.state;
         return (
@@ -218,13 +224,10 @@ class ApexChart extends Component {
                 <div id="chart">
                     <ReactApexChart options={this.state.options} series={this.state.series} type="radialBar"
                                     height={this.state.options.chart.height}/>
-                    {/*<div className="chart_window">*/}
-                    {showChart && <Recharts data={this.state.data} name={this.state.nameOfProperty} showChart={this.state.showChart}/>}
-                    {/*</div>*/}
+                    {showChart && <Recharts data={this.state.data} name={this.state.nameOfProperty}
+                                            showChart={this.state.showChart}/>}
                 </div>
             </div>
-
-
         );
     }
 }

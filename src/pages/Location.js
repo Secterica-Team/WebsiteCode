@@ -18,6 +18,7 @@ const colors = {
 let color = "";
 
 class Location extends Component {
+    _isMounted = false;
     constructor(props) {
         super(props);
         this.state = {
@@ -29,7 +30,6 @@ class Location extends Component {
             response: false,
             activeLocation: null
         };
-        this.setAQIColor = this.setAQIColor.bind(this);
     }
 
     static contextType = LocationContext;
@@ -57,6 +57,8 @@ class Location extends Component {
     };
 
     componentDidMount() {
+        this._isMounted = true;
+        let currentComponent = this;
         const currentLocationToDisplay = localStorage.getItem('currentLocation');
         const currentLocationToDisplayId = localStorage.getItem('currentLocationId');
         const currentLocationToDisplayName = localStorage.getItem('currentLocationName');
@@ -64,16 +66,19 @@ class Location extends Component {
         const currentLocationToDisplayLongitude = localStorage.getItem('currentLocationLongitude');
         this.context.putCurrentLocation(currentLocationToDisplay, currentLocationToDisplayId, currentLocationToDisplayName, currentLocationToDisplayLatitude, currentLocationToDisplayLongitude);
         fetch(`http://heysmellproject-env.eba-uctmjbw3.us-east-2.elasticbeanstalk.com/air-quality/last_day?location=${encodeURIComponent(currentLocationToDisplayId)}`)
+            .then(res => (res.ok ? res : Promise.reject(res)))
             .then(res => res.json())
             .then(
                 (result) => {
-                    this.setState({
-                        isLoaded: true,
-                        allDayData: result,
-                        currentDayMetaData: result[result.length - 1],
-                        dateTime: result[result.length - 1].dateTime.split(/T|\./),
-                        response: true
-                    });
+                    if (this._isMounted) {
+                        currentComponent.setState({
+                            isLoaded: true,
+                            allDayData: result,
+                            currentDayMetaData: result[result.length - 1],
+                            dateTime: result[result.length - 1].dateTime.split(/[T.]/),
+                            response: true
+                        });
+                    }
                     console.log(this.state.currentDayMetaData);
                     localStorage.setItem('currentDayMetaData', this.state.currentDayMetaData);
                     localStorage.setItem('co', this.state.currentDayMetaData.co);
@@ -83,7 +88,9 @@ class Location extends Component {
                     localStorage.setItem('temperature', this.state.currentDayMetaData.tmp);
                     localStorage.setItem('smoke', this.state.currentDayMetaData.smk);
                     localStorage.setItem('lpg', this.state.currentDayMetaData.lpg);
-                    this.context.putCurrentMetadata(this.state.currentDayMetaData.co,
+                    // localStorage.setItem('time', this.state.dateTime[1]);
+                    this.context.putCurrentMetadata(
+                        this.state.currentDayMetaData.co,
                         this.state.currentDayMetaData.co2,
                         this.state.currentDayMetaData.dus,
                         this.state.currentDayMetaData.hum,
@@ -100,9 +107,10 @@ class Location extends Component {
                 }
             )
     }
-
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
     render() {
-        console.log(this.state.currentDayMetaData);
         const {error, isLoaded, currentDayMetaData, response} = this.state;
         if (error) {
             return <div>Oops..something went wrong: {error.message}</div>;
@@ -152,11 +160,9 @@ class Location extends Component {
                             >
                                 <div>
                                     {/*<h3>{this.context.locationName}</h3>*/}
-                                    <h2 style={{color: color}} className="aqi_current">{currentDayMetaData.aqi} <h5
-                                        className="slash"
-                                        style={{color: '#000000'}}>/ </h5><h6 className="aqi_max"
-                                                                             style={{color: '#AD0002'}}>500</h6>
-                                    </h2>
+                                    <h2 style={{color: color}} className="aqi_current">{currentDayMetaData.aqi}</h2>
+                                    <h3 className="slash" style={{color: '#000000'}}> / </h3>
+                                    <h4 className="aqi_max" style={{color: '#AD0002'}}>500</h4>
                                 </div>
                             </Popup>)}
                         </Map>

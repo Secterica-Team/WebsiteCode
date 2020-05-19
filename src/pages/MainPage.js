@@ -11,29 +11,34 @@ const myMarker = new Icon({
 });
 
 class MainPage extends Component {
-
+    _isMounted = false;
     constructor(props) {
         super(props);
         this.state = {
             error: null,
             isLoaded: false,
             locations: [],
-            activeLocation: null
+            activeLocation: null,
+            response: false
         };
     }
 
     static contextType = LocationContext;
 
     componentDidMount() {
+        this._isMounted = true;
         this.context.putCurrentLocation(null, null);
         fetch("http://heysmellproject-env.eba-uctmjbw3.us-east-2.elasticbeanstalk.com/air-quality/locations")
             .then(res => res.json())
             .then(
                 (result) => {
-                    this.setState({
-                        isLoaded: true,
-                        locations: result
-                    });
+                    if (this._isMounted) {
+                        this.setState({
+                            isLoaded: true,
+                            locations: result,
+                            response: true
+                        });
+                    }
                 },
                 (error) => {
                     this.setState({
@@ -48,9 +53,12 @@ class MainPage extends Component {
         this.props.history.push("/location")
     };
 
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+
     render() {
-        const {error, isLoaded, locations, activeLocation} = this.state;
-        //const [activeLocation, setActiveLocation] = React.useState(null);
+        const {error, isLoaded, locations, activeLocation, response} = this.state;
         if (error) {
             return <div>Oops..something went wrong: {error.message}</div>;
         } else if (!isLoaded) {
@@ -58,7 +66,7 @@ class MainPage extends Component {
         } else {
             return (
                 <React.Fragment>
-                    <Map center={[49.21377, 24.03404]} zoom={8}>
+                    {response && <Map center={[49.21377, 24.03404]} zoom={8}>
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -113,7 +121,7 @@ class MainPage extends Component {
                                 </div>
                             </Popup>
                         )}
-                    </Map>
+                    </Map>}
                 </React.Fragment>
             );
         }
